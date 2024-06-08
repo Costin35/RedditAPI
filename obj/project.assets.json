@@ -4522,19 +4522,21 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\costi\\RiderProjects\\RedditAPI\\RedditAPI.csproj",
+      "projectUniqueName": "D:\\work projects\\RedditAPI\\RedditAPI\\RedditAPI.csproj",
       "projectName": "RedditAPI",
-      "projectPath": "C:\\Users\\costi\\RiderProjects\\RedditAPI\\RedditAPI.csproj",
+      "projectPath": "D:\\work projects\\RedditAPI\\RedditAPI\\RedditAPI.csproj",
       "packagesPath": "C:\\Users\\costi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\costi\\RiderProjects\\RedditAPI\\obj\\",
+      "outputPath": "D:\\work projects\\RedditAPI\\RedditAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\costi\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\costi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4595,7 +4597,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Users\\costi\\.dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

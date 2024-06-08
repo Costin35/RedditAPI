@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using RedditAPI.Services.Features.Users;
 using RedditAPI.WebApi.Models;
 using RedditAPI.WebApi.Mappers;
+using RegisterRequest = RedditAPI.WebApi.Mappers.RegisterRequest;
+
 namespace RedditAPI.WebApi.Controllers;
 
 [Route("api/users")]

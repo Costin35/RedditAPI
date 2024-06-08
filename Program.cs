@@ -1,13 +1,34 @@
+using Microsoft.EntityFrameworkCore;
+using RedditAPI.Data.Infrastructure.Context;
+using RedditAPI.Data.Infrastructure.UnitOfWork;
+using RedditAPI.Data.Repositories.CommentRepository;
+using RedditAPI.Data.Repositories.LikeRepository;
+using RedditAPI.Data.Repositories.PostRepository;
+using RedditAPI.Data.Repositories.UserRepository;
+using RedditAPI.Services.Features.Comments;
+using RedditAPI.Services.Features.Likes;
+using RedditAPI.Services.Features.Posts;
+using RedditAPI.Services.Features.Users;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddDbContext<AppDbContext>(o => o.UseSqlServer("data source=DESKTOP-MH9G65N;initial catalog=master;trusted_connection=true;TrustServerCertificate=true"));
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<IAppDbContext, AppDbContext>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped <IPostRepository, PostRepository>();
+builder.Services.AddScoped <ILikeRepository, LikeRepository>();
+builder.Services.AddScoped <IUserService, UserService>();
+builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped <ILikeService, LikeService>();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -16,29 +37,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.UseAuthorization();
 
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

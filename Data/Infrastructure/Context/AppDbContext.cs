@@ -35,16 +35,16 @@ public class AppDbContext : DbContext, IAppDbContext
         modelBuilder.Entity<Post>()
             .HasMany(p => p.Likes)
             .WithOne(l => l.Post)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
         modelBuilder.Entity<Post>()
             .HasMany(p => p.Comments)
             .WithOne(c => c.Post)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
 
         modelBuilder.Entity<Comment>()
             .HasMany(l => l.Likes)
             .WithOne(l => l.Comment)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.NoAction);
         
         base.OnModelCreating(modelBuilder);
     }

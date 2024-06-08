@@ -34,7 +34,7 @@ public class PostService : IPostService
             CreatedAt = DateTime.UtcNow,
             UserId = user.Id
         };
-        user.Posts.Add(postToAdd);
+        /*user.Posts.Add(postToAdd);*/
         _unitOfWork.Posts.Add(postToAdd);
         _unitOfWork.SaveChanges();
 

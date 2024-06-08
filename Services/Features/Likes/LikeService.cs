@@ -36,7 +36,7 @@ public class LikeService : ILikeService
             PostId = postId,
             CommentId = commentId
         };
-        likeToAdd.Post = post;
+        /*likeToAdd.Post = post;
         likeToAdd.Comment = comment;
         likeToAdd.User = user;
         user.Likes.Add(likeToAdd);
@@ -47,7 +47,7 @@ public class LikeService : ILikeService
         if(commentId.HasValue && comment is null)
         {
             post.Likes.Add(likeToAdd);
-        }
+        }*/
         _unitOfWork.Likes.Add(likeToAdd);
         _unitOfWork.SaveChanges();
 

@@ -85,10 +85,10 @@ public class CommentService : ICommentService
             UserId = userId!.Value,
             CreatedAt = DateTime.UtcNow
         };
-        commentToAdd.Post = post;
-        commentToAdd.User = user;
-        user.Comments.Add(commentToAdd);
-        post.Comments.Add(commentToAdd);
+        /*commentToAdd.Post = post;
+        commentToAdd.User = user;*/
+       // user.Comments.Add(commentToAdd);
+        //post.Comments.Add(commentToAdd);
         _unitOfWork.Comments.Add(commentToAdd);
         _unitOfWork.SaveChanges();
         

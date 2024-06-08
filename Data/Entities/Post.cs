@@ -9,6 +9,6 @@ public class Post
     
     public int UserId { get; set; }
     public User User { get; set; }
-    public IEnumerable<Comment?> Comments { get; set; } = new List<Comment>();
-    public IEnumerable<Like?> Likes { get; set; } = new List<Like>();
+    public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
+    public IEnumerable<Like> Likes { get; set; } = new List<Like>();
 }

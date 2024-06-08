@@ -1,6 +1,7 @@
 using RedditAPI.Data.Entities;
 using RedditAPI.Data.Infrastructure.UnitOfWork;
 using RedditAPI.Services.Features.Auth;
+using RedditAPI.Services.Mappers;
 
 namespace RedditAPI.Services.Features.Users;
 

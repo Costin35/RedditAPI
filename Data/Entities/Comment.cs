@@ -10,5 +10,5 @@ public class Comment
     public Post Post { get; set; }
     public int UserId { get; set; }
     public User User { get; set; }
-    public IEnumerable<Like?> Likes { get; set; } = new List<Like>();
+    public IEnumerable<Like> Likes { get; set; } = new List<Like>();
 }

@@ -8,7 +8,7 @@ public class User
     public string Email { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
     
-    public IEnumerable<Post?> Posts { get; set; } = new List<Post>();
-    public IEnumerable<Comment?> Comments { get; set; } = new List<Comment>();
-    public IEnumerable<Like?> Likes { get; set; } = new List<Like>();
+    public IEnumerable<Post> Posts { get; set; } = new List<Post>();
+    public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
+    public IEnumerable<Like> Likes { get; set; } = new List<Like>();
 }

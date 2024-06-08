@@ -8,10 +8,6 @@ namespace RedditAPI.Data.Repositories.CommentRepository;
 public class CommentRepository : Repository<Comment>, ICommentRepository
 {
     private readonly IAppDbContext _dbContext;
-    public void Add(Comment entity)
-    {
-        _dbContext.Comments.Add(entity);
-    }
     public CommentRepository(IAppDbContext dbContext) : base((AppDbContext)dbContext)
     {
         _dbContext = dbContext;

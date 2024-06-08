@@ -30,7 +30,7 @@ public class CommentController : ControllerBase
         {
             return NotFound();
         }
-        return Ok(commentDto.ToModel());
+        return Ok(commentDto.ToApiModel());
     }
 
     [HttpPost]
@@ -57,7 +57,7 @@ public class CommentController : ControllerBase
     public ActionResult<int> ChangeComment(int? commentId, CreateCommentModel model)
     {
         var comment = model.ToDto();
-        var statusCode = _commentService.ChangeComment(commentId, comment);
+        var statusCode = _commentService.ChangeContent(commentId, comment);
         return StatusCode(statusCode);
     }
 }
