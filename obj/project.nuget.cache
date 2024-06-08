@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4HNS77jObavZYvX2rLo7+KWwbG1+WCxyyHYOH7kpcXxxjGVYeqJF/1X6z6jZJgFMNUNvFzdRvgvN+zyUOIIfuQ==",
+  "dgSpecHash": "3DWkKgscZWwx4heMDDoFtg7WYnmrHyMmZ83wrdHdM9rglLXPPspPUZDWxuHKv153eH6W4buZ+J90b37LydfCOg==",
   "success": true,
-  "projectFilePath": "D:\\work projects\\RedditAPI\\RedditAPI\\RedditAPI.csproj",
+  "projectFilePath": "C:\\Users\\costi\\RiderProjects\\RedditAPI\\RedditAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\costi\\.nuget\\packages\\azure.core\\1.35.0\\azure.core.1.35.0.nupkg.sha512",
     "C:\\Users\\costi\\.nuget\\packages\\azure.identity\\1.10.3\\azure.identity.1.10.3.nupkg.sha512",

@@ -1,11 +1,11 @@
 using RedditAPI.Data.Entities;
 using RedditAPI.Services.Features.Likes;
 
-namespace RedditAPI.Services.Mapppers;
+namespace RedditAPI.Services.Mappers;
 
-public class LikeMapper
+public static class LikeMapper
 {
-    public static LikeDto ToDto(Like entity)
+    public static LikeDto ToDto(this Like entity)
     {
         return new LikeDto
         {
@@ -15,7 +15,7 @@ public class LikeMapper
             PostId = entity.PostId
         };
     }
-    public static Like ToEntity(LikeDto dto)
+    public static Like ToEntity(this LikeDto dto)
     {
         return new Like
         {

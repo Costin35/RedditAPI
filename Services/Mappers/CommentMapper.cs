@@ -1,12 +1,11 @@
-using System.Xml;
 using RedditAPI.Data.Entities;
 using RedditAPI.Services.Features.Comments;
 
-namespace RedditAPI.Services.Mapppers;
+namespace RedditAPI.Services.Mappers;
 
-public class CommentMapper
+public static class CommentMapper
 {
-    public static CommentDto ToDto(Comment entity)
+    public static CommentDto ToDto(this Comment entity)
     {
         return new CommentDto
         {
@@ -17,11 +16,11 @@ public class CommentMapper
             PostId = entity.PostId,
             Post = entity.Post.ToDto(),
             User = entity.User.ToDto(),
-            Likes = entity.Likes.Select(l => l.ToDto()).ToList()
+            Likes = entity.Likes.Select(l => l.ToDto()).ToList() 
         };
     }
     
-    public static Comment ToEntity(CommentDto dto)
+    public static Comment ToEntity(this CommentDto dto)
     {
         return new Comment
         {

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RedditAPI.Services.Features.Posts;
+using RedditAPI.WebApi.Mappers;
 using RedditAPI.WebApi.Models;
 
 namespace RedditAPI.WebApi.Controllers;

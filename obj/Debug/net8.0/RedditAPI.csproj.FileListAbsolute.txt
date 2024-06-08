@@ -31,3 +31,14 @@ D:\work projects\RedditAPI\RedditAPI\obj\Debug\net8.0\refint\RedditAPI.dll
 D:\work projects\RedditAPI\RedditAPI\obj\Debug\net8.0\RedditAPI.pdb
 D:\work projects\RedditAPI\RedditAPI\obj\Debug\net8.0\RedditAPI.genruntimeconfig.cache
 D:\work projects\RedditAPI\RedditAPI\obj\Debug\net8.0\ref\RedditAPI.dll
+C:\Users\costi\RiderProjects\RedditAPI\obj\Debug\net8.0\RedditAPI.csproj.AssemblyReference.cache
+C:\Users\costi\RiderProjects\RedditAPI\obj\Debug\net8.0\RedditAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\costi\RiderProjects\RedditAPI\obj\Debug\net8.0\RedditAPI.AssemblyInfoInputs.cache
+C:\Users\costi\RiderProjects\RedditAPI\obj\Debug\net8.0\RedditAPI.AssemblyInfo.cs
+C:\Users\costi\RiderProjects\RedditAPI\obj\Debug\net8.0\RedditAPI.csproj.CoreCompileInputs.cache
+C:\Users\costi\RiderProjects\RedditAPI\obj\Debug\net8.0\RedditAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\costi\RiderProjects\RedditAPI\obj\Debug\net8.0\RedditAPI.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\costi\RiderProjects\RedditAPI\obj\Debug\net8.0\RedditAPI.sourcelink.json
+C:\Users\costi\RiderProjects\RedditAPI\obj\Debug\net8.0\RedditAPI.dll
+C:\Users\costi\RiderProjects\RedditAPI\obj\Debug\net8.0\refint\RedditAPI.dll
+C:\Users\costi\RiderProjects\RedditAPI\obj\Debug\net8.0\RedditAPI.pdb

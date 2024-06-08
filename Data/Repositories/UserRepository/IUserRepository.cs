@@ -6,5 +6,7 @@ namespace RedditAPI.Data.Repositories.UserRepository;
 public interface IUserRepository : IRepository<User>
 {
     User? GetById(int id);
+    User? GetByUsername(string username);
+    User? GetByEmail(string email);
     
 }

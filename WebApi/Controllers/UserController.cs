@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using RedditAPI.Services.Features.Users;
 using RedditAPI.WebApi.Models;
-
+using RedditAPI.WebApi.Mappers;
 namespace RedditAPI.WebApi.Controllers;
 
 [Route("api/users")]
@@ -48,6 +48,5 @@ public class UserController : ControllerBase
         var user = request.ToDto();
         var statusCode = _userService.CreateUser(user);
         return StatusCode(statusCode);
-
     }
 }

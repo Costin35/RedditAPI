@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using RedditAPI.Data.Entities;
 using RedditAPI.Data.Infrastructure.Context;
 using RedditAPI.Data.Infrastructure.Repository;
@@ -15,7 +16,31 @@ public class UserRepository : Repository<User>, IUserRepository
 
     public User? GetById(int id)
     {
-        var user = _dbContext.Users.FirstOrDefault(u => u.Id == id);
+        var user = _dbContext.Users
+            .Include(u=>u.Comments)
+            .Include(u=>u.Posts)
+            .Include(p=>p.Likes)
+            .FirstOrDefault(u => u.Id == id);
+        return user;
+    }
+    
+    public User? GetByUsername(string username)
+    {
+        var user = _dbContext.Users
+            .Include(u=>u.Comments)
+            .Include(u=>u.Posts)
+            .Include(p=>p.Likes)
+            .FirstOrDefault(u => u.Username == username);
+        return user;
+    }
+    
+    public User? GetByEmail(string email)
+    {
+        var user = _dbContext.Users
+            .Include(u=>u.Comments)
+            .Include(u=>u.Posts)
+            .Include(p=>p.Likes)
+            .FirstOrDefault(u => u.Email == email);
         return user;
     }
 }

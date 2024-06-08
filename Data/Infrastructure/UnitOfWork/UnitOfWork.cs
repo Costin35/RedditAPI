@@ -45,9 +45,8 @@ namespace RedditAPI.Data.Infrastructure.UnitOfWork;
         {
             return _dbContext.Entry(entity).State == EntityState.Modified;
         }
-        public IUserRepository Users { get; }
-        public IPostRepository Posts { get; }
-        public ICommentRepository Comments { get; }
-        public ILikeRepository Likes { get; }
-        
+        public IUserRepository Users { get; private set; }
+        public IPostRepository Posts { get; private set; }
+        public ICommentRepository Comments { get; private set; }
+        public ILikeRepository Likes { get; private set;}
 }
