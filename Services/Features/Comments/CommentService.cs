@@ -15,66 +15,52 @@ public class CommentService : ICommentService
         _unitOfWork = unitOfWork;
     }
 
-    public CommentDto GetDetails(int? commentId)
+    public Result<CommentDto> GetDetails(int? commentId)
     {
         if (!commentId.HasValue)
         {
-            /*CommentErrors.NotFound;
-            return null;*/
+            Result<CommentDto>.Failure(CommentErrors.NotFound);
         }
         var comment = _unitOfWork.Comments.GetById(commentId.Value);
         if (comment is null)
         {
-            /*CommentErrors.NotFound;
-            return null;*/
+            Result<CommentDto>.Failure(CommentErrors.NotFound);
         }
-        return comment.ToDto();
+        return Result<CommentDto>.Success(comment.ToDto());
     }
 
-    public int ChangeContent(int? commentId, CreateCommentDto createCommentDto)
+    public Result ChangeContent(int? commentId, CreateCommentDto createCommentDto)
     {
         if (!commentId.HasValue)
         {
-            /*
-             CommentErrors.NotFound;
-             return null;
-             */
+            return Result.Failure(CommentErrors.NotFound);
         }
         var comment = _unitOfWork.Comments.GetById(commentId.Value);
         if (comment is null)
         {
-            /*
-             CommentErrors.NotFound;
-             return null;
-            */
+            return Result.Failure(CommentErrors.NotFound);
         }
         if (!string.IsNullOrWhiteSpace(createCommentDto.Content))
             comment.Content = createCommentDto.Content;
         _unitOfWork.Comments.Update(comment);
         _unitOfWork.SaveChanges();
         
-        return 200;
+        return Result.Success();
     }
 
-    public int CreateComment(CreateCommentDto createCommentDto, int? userId, int? postId)
+    public Result CreateComment(CreateCommentDto? createCommentDto, int? userId, int? postId)
     {
         if (createCommentDto is null)
         {
-            /*
-             *error for null object 
-             */
+            return Result.Failure(CommentErrors.InvalidData);
         }
         if(!postId.HasValue)
         {
-            /*
-             *PostErrors.NotFound;
-             */
+            return Result.Failure(CommentErrors.NotFound);
         }
         if (!userId.HasValue)
         {
-            /*
-             *UserErrors.NotFound;
-             */
+            return Result.Failure(CommentErrors.NotFound);
         }
         var post = _unitOfWork.Posts.GetById(postId.Value);
         var user = _unitOfWork.Users.GetById(userId.Value);
@@ -85,34 +71,26 @@ public class CommentService : ICommentService
             UserId = userId!.Value,
             CreatedAt = DateTime.UtcNow
         };
-        /*commentToAdd.Post = post;
-        commentToAdd.User = user;*/
-       // user.Comments.Add(commentToAdd);
-        //post.Comments.Add(commentToAdd);
         _unitOfWork.Comments.Add(commentToAdd);
         _unitOfWork.SaveChanges();
-        
-        return 200;
+
+        return Result.Success();
     }
     
-    public int DeleteComment(int? commentId)
+    public Result DeleteComment(int? commentId)
     {
         if (!commentId.HasValue)
         {
-            /*
-             *CommentErrors.NotFound;
-             */
+            return Result.Failure(CommentErrors.NotFound);
         }
         var comment = _unitOfWork.Comments.GetById(commentId.Value);
         if (comment is null)
         {
-            /*
-             *CommentErrors.NotFound;
-             */
+            return Result.Failure(CommentErrors.NotFound);
         }
         _unitOfWork.Comments.Delete(comment);
         _unitOfWork.SaveChanges();
         
-        return 200;
+        return Result.Success();
     }
 }

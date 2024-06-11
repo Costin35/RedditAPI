@@ -42,3 +42,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+//USER PATCH logica gresita(da eroare de user already exists)
+//COMMENT GET crapa
+//LIKE POST crapa

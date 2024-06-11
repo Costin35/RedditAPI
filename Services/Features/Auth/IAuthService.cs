@@ -2,5 +2,5 @@
 
 public interface IAuthService
 {
-    void Register(RegisterDto registerDto);
+    Result Register(RegisterDto registerDto);
 }

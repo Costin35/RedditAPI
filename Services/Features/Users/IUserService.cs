@@ -4,8 +4,8 @@ namespace RedditAPI.Services.Features.Users;
 
 public interface IUserService
 {
-    UserDto GetDetails(int? userId);
-    int ChangeDetails(int? userId, UserDetailsDto userDto);
-    int DeleteUser(int? userId);
-    int CreateUser(RegisterDto userDto);
+    Result<UserDto> GetDetails(int? userId);
+    Result ChangeDetails(int? userId, UserDetailsDto userDto);
+    Result DeleteUser(int? userId);
+    Result CreateUser(RegisterDto userDto);
 }

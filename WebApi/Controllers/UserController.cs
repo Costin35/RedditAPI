@@ -18,37 +18,47 @@ public class UserController : ControllerBase
         _userService = userService;
     }
     [HttpGet]
-    public ActionResult<UserModel> GetUserDetails(int? userId)
+    public IActionResult GetUserDetails(int? userId)
     {
-        if(userId == null)
-        {
-            return NotFound();
-        }
-           
-        var userDto = _userService.GetDetails(userId);
-        if (userDto is null)
-        {
-            return NotFound();
-        }
-        return Ok(userDto.ToApiModel());
+        var result = _userService.GetDetails(userId);
+
+        return result.Match<IActionResult>(
+            onSuccess: userDto => Ok(userDto.ToApiModel()),
+            onFailure: error => BadRequest(error.Description)
+        );
     }
+
     [HttpPatch]
-    public ActionResult<int> ChangeUserDetails(int? userId, [FromBody] UserDetailsModel userModel)
+    public IActionResult ChangeUserDetails(int? userId, [FromBody] UserDetailsModel userModel)
     {
-        var statusCode = _userService.ChangeDetails(userId, userModel.ToDto());
-        return StatusCode(statusCode);
+        var result = _userService.ChangeDetails(userId, userModel.ToDto());
+
+        return result.Match<IActionResult>(
+            onSuccess: NoContent,
+            onFailure: error => BadRequest(error.Description)
+        );
     }
+
     [HttpDelete]
-    public ActionResult<int> DeleteUser(int? userId) 
+    public IActionResult DeleteUser(int? userId)
     {
-        var statusCode = _userService.DeleteUser(userId);
-        return StatusCode(statusCode);
+        var result = _userService.DeleteUser(userId);
+
+        return result.Match<IActionResult>(
+            onSuccess: NoContent,
+            onFailure: error => BadRequest(error.Description)
+        );
     }
+
     [HttpPost]
-    public ActionResult<int> CreateUser([FromBody] RegisterRequest request)
+    public IActionResult CreateUser([FromBody] RegisterRequest request)
     {
-        var user = request.ToDto();
-        var statusCode = _userService.CreateUser(user);
-        return StatusCode(statusCode);
+        var userDto = request.ToDto();
+        var result = _userService.CreateUser(userDto);
+
+        return result.Match<IActionResult>(
+            onSuccess: Created,
+            onFailure: error => BadRequest(error.Description)
+        );
     }
 }

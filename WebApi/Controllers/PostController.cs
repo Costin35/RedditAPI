@@ -15,36 +15,48 @@ public class PostController : ControllerBase
         _postService = postService;
     }
     [HttpGet]
-    public ActionResult<PostModel> GetPostDetails(int? postId)
+    public IActionResult GetPostDetails(int? postId)
     {
-        if(postId == null)
-        {
-            return NotFound();
-        }
-        var postDto = _postService.GetDetails(postId);
-        if(postDto == null)
-        {
-            return BadRequest();
-        }
-        return Ok(postDto.ToApiModel());
+        var result = _postService.GetDetails(postId);
+
+        return result.Match<IActionResult>(
+            onSuccess: postDto => Ok(postDto.ToApiModel()),
+            onFailure: error => BadRequest(error.Description)
+        );
     }
+
     [HttpPost]
-    public ActionResult<int> CreatePost ([FromBody] PostContentModel model, int? userId)
+    public IActionResult CreatePost([FromBody] PostContentModel model, int? userId)
     {
-        var post = model.ToDto();
-        var statusCode = _postService.CreatePost(post, userId);
-        return StatusCode(statusCode);
+        var postDto = model.ToDto();
+        var result = _postService.CreatePost(postDto, userId);
+
+        return result.Match<IActionResult>(
+            onSuccess: Created,
+            onFailure: error => BadRequest(error.Description)
+        );
     }
+
     [HttpDelete]
-    public ActionResult<int> DeletePost(int? postId) 
+    public IActionResult DeletePost(int? postId)
     {
-        var statusCode = _postService.DeletePost(postId);
-        return StatusCode(statusCode);
+        var result = _postService.DeletePost(postId);
+
+        return result.Match<IActionResult>(
+            onSuccess: NoContent,
+            onFailure: error => BadRequest(error.Description)
+        );
     }
+
     [HttpPatch]
-    public ActionResult<int> ChangePostContent(int? postId, [FromBody] PostContentModel model)
+    public IActionResult ChangePostContent(int? postId, [FromBody] PostContentModel model)
     {
-        var statusCode = _postService.ChangeDetails(postId, model.ToDto());
-        return StatusCode(statusCode);
+        var postDto = model.ToDto();
+        var result = _postService.ChangeDetails(postId, postDto);
+
+        return result.Match<IActionResult>(
+            onSuccess: NoContent,
+            onFailure: error => BadRequest(error.Description)
+        );
     }
 }

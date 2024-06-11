@@ -18,46 +18,44 @@ public class CommentController : ControllerBase
         _commentService = commentService;
     }
     [HttpGet]
-    public ActionResult<CommentModel> GetCommentDetails(int? commentId)
+    public IActionResult GetCommentDetails(int? commentId)
     {
-        if (commentId is null)
-        {
-            return NotFound();
-        }
-
-        var commentDto = _commentService.GetDetails(commentId);
-        if (commentDto is null)
-        {
-            return NotFound();
-        }
-        return Ok(commentDto.ToApiModel());
+        var result = _commentService.GetDetails(commentId);
+        return result.Match<IActionResult>(
+            onSuccess: commentDto => Ok(commentDto.ToApiModel()),
+            onFailure: error => BadRequest(error.Description)
+        );
     }
 
     [HttpPost]
-    public ActionResult<int> CreateComment(CreateCommentModel model, int? userId, int? postId)
+    public IActionResult CreateComment(CreateCommentModel model, int? userId, int? postId)
     {
         var comment = model.ToDto();
-        var statusCode = _commentService.CreateComment(comment, userId, postId);
-        return StatusCode(statusCode);
+        var result = _commentService.CreateComment(comment, userId, postId);
+        return result.Match<IActionResult>(
+            onSuccess: Created,
+            onFailure: error => BadRequest(error.Description)
+            );
     }
     
     [HttpDelete]
-    public ActionResult<int> DeleteComment(int? commentId)
+    public IActionResult DeleteComment(int? commentId)
     {
-        if (commentId is null)
-        {
-            return NotFound();
-        }
-
-        var statusCode = _commentService.DeleteComment(commentId);
-        return StatusCode(statusCode);
+        var result = _commentService.DeleteComment(commentId);
+        return result.Match<IActionResult>(
+            onSuccess: NoContent,
+            onFailure: error => BadRequest(error.Description)
+            );
     }
 
     [HttpPatch]
-    public ActionResult<int> ChangeComment(int? commentId, CreateCommentModel model)
+    public IActionResult ChangeComment(int? commentId, CreateCommentModel model)
     {
         var comment = model.ToDto();
-        var statusCode = _commentService.ChangeContent(commentId, comment);
-        return StatusCode(statusCode);
+        var result = _commentService.ChangeContent(commentId, comment);
+        return result.Match<IActionResult>(
+            onSuccess: NoContent,
+            onFailure: error => BadRequest(error.Description)
+            );
     }
 }

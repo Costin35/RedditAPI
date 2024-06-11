@@ -1,5 +1,6 @@
 using RedditAPI.Data.Entities;
 using RedditAPI.Data.Infrastructure.UnitOfWork;
+using RedditAPI.Services.Constants;
 
 namespace RedditAPI.Services.Features.Likes;
 
@@ -12,23 +13,23 @@ public class LikeService : ILikeService
         _unitOfWork = unitOfWork;
     }
 
-    public int CreateLike(int? userId, int? postId, int? commentId)
+    public Result CreateLike(int? userId, int? postId, int? commentId)
     {
         if(!userId.HasValue || (!postId.HasValue && !commentId.HasValue))
         {
-            //error bad request
+            return Result.Failure(LikeErrors.InvalidData);
         }
         var user = _unitOfWork.Users.GetById(userId.Value);
         var post = postId.HasValue ? _unitOfWork.Posts.GetById(postId.Value) : null;
         var comment = commentId.HasValue ? _unitOfWork.Comments.GetById(commentId.Value) : null;
         if(user is null || (post is null && comment is null))
         {
-            //error not found
+            return Result.Failure(LikeErrors.NotFound);
         }
         var like = _unitOfWork.Likes.GetByUserAndContent(userId.Value, postId, commentId);
         if (like is not null)
         {
-            //error already exists
+            return Result.Failure(LikeErrors.AlreadyExists);
         }
         var likeToAdd = new Like
         {
@@ -36,38 +37,26 @@ public class LikeService : ILikeService
             PostId = postId,
             CommentId = commentId
         };
-        /*likeToAdd.Post = post;
-        likeToAdd.Comment = comment;
-        likeToAdd.User = user;
-        user.Likes.Add(likeToAdd);
-        if (postId.HasValue && post is null)
-        {
-            comment.Likes.Add(likeToAdd);
-        }
-        if(commentId.HasValue && comment is null)
-        {
-            post.Likes.Add(likeToAdd);
-        }*/
         _unitOfWork.Likes.Add(likeToAdd);
         _unitOfWork.SaveChanges();
 
-        return 200;
+        return Result.Success();
     }
 
-    public int DeleteLike(int? likeId, int? userId)
+    public Result DeleteLike(int? likeId, int? userId)
     {
         if(!likeId.HasValue && !userId.HasValue)
         {
-            //error bad request
+            return Result.Failure(LikeErrors.InvalidData);
         }
         var like = _unitOfWork.Likes.GetById(likeId.Value);
         if(like is null || like.UserId != userId)
         {
-            //error not found
+            return Result.Failure(LikeErrors.NotFound);
         }
         _unitOfWork.Likes.Delete(like);
         _unitOfWork.SaveChanges();
 
-        return 200;
+        return Result.Success();
     }
 }

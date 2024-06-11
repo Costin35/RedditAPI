@@ -1,5 +1,6 @@
 using RedditAPI.Data.Entities;
 using RedditAPI.Data.Infrastructure.UnitOfWork;
+using RedditAPI.Services.Constants;
 using RedditAPI.Services.Features.Auth;
 using RedditAPI.Services.Mappers;
 
@@ -12,17 +13,17 @@ public class UserService : IUserService
     {
         _unitOfWork = unitOfWork;
     }
-    public int CreateUser(RegisterDto userDto)
+    public Result CreateUser(RegisterDto? userDto)
     {
         if (userDto is null || string.IsNullOrWhiteSpace(userDto.Username) || string.IsNullOrWhiteSpace(userDto.Email) || string.IsNullOrWhiteSpace(userDto.Password))
         {
-            //error invalid data
+            return Result.Failure(UserErrors.InvalidData);
         }
         var username = _unitOfWork.Users.GetByUsername(userDto.Username);
         var email = _unitOfWork.Users.GetByEmail(userDto.Email);
         if (username is not null || email is not null)
         {
-            //error already exists
+            return Result.Failure(UserErrors.AlreadyExists);
         }
         var userToAdd = new User
         {
@@ -34,25 +35,25 @@ public class UserService : IUserService
         _unitOfWork.Users.Add(userToAdd);
         _unitOfWork.SaveChanges();
 
-        return 200;
+        return Result.Success();
     }
     
-    public int ChangeDetails(int? userId, UserDetailsDto userDetailsDto)
+    public Result ChangeDetails(int? userId, UserDetailsDto userDetailsDto)
     {
         if (!userId.HasValue)
         {
-            //error not found
+            return Result.Failure(UserErrors.NotFound);
         }
         
         var user = _unitOfWork.Users.GetById(userId.Value);
         var existingUser = _unitOfWork.Users.GetByUsername(userDetailsDto.Username);
         if (existingUser is not null)
         {
-            //error already exists
+            return Result.Failure(UserErrors.AlreadyExists);
         }
         if (user is null)
         {
-            //error not found
+            return Result.Failure(UserErrors.NotFound);
         }
         if (!string.IsNullOrWhiteSpace(userDetailsDto.Username))
         {
@@ -65,34 +66,34 @@ public class UserService : IUserService
         _unitOfWork.Users.Update(user);
         _unitOfWork.SaveChanges();
 
-        return 200;
+        return Result.Success();
     }
 
-    public UserDto GetDetails(int? userId)
+    public Result<UserDto> GetDetails(int? userId)
     {
         var user = _unitOfWork.Users.GetById(userId.Value);
         if (user is null)
         {
-            //error not found
+            return Result<UserDto>.Failure(UserErrors.NotFound);
         }
         
-        return user.ToDto();
+        return Result<UserDto>.Success(user.ToDto());
     }
     
-    public int DeleteUser(int? userId)
+    public Result DeleteUser(int? userId)
     {
         if (!userId.HasValue)
         {
-            //error not found
+            return Result.Failure(UserErrors.NotFound);
         }
         var user = _unitOfWork.Users.GetById(userId.Value);
         if (user is null)
         {
-            //error not found
+            return Result.Failure(UserErrors.NotFound);
         }
         _unitOfWork.Users.Delete(user);
         _unitOfWork.SaveChanges();
 
-        return 200;
+        return Result.Success();
     }
 }

@@ -2,6 +2,6 @@ namespace RedditAPI.Services.Features.Likes;
 
 public interface ILikeService
 {
-    public int CreateLike(int? userId, int? postId, int? commentId);
-    public int DeleteLike(int? likeId, int? userId);
+    public Result CreateLike(int? userId, int? postId, int? commentId);
+    public Result DeleteLike(int? likeId, int? userId);
 }

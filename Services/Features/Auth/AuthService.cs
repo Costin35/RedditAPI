@@ -1,5 +1,7 @@
-﻿using RedditAPI.Data.Infrastructure.Context;
+﻿using RedditAPI.Data.Entities;
+using RedditAPI.Data.Infrastructure.Context;
 using RedditAPI.Data.Infrastructure.UnitOfWork;
+using RedditAPI.Services.Constants;
 
 namespace RedditAPI.Services.Features.Auth;
 
@@ -14,17 +16,18 @@ public class AuthService : IAuthService
         _dbContext = dbContext;
     }
     
-    public void Register(RegisterDto registerDto)
+    public Result Register(RegisterDto registerDto)
     {
         if (string.IsNullOrWhiteSpace(registerDto.Username) || string.IsNullOrWhiteSpace(registerDto.Email) || string.IsNullOrWhiteSpace(registerDto.Password))
         {
-            //error invalid data
+            return Result.Failure(UserErrors.InvalidRegisterData);
         }
         var username = _unitOfWork.Users.GetByUsername(registerDto.Username);
         var email = _unitOfWork.Users.GetByEmail(registerDto.Email);
         if (username is not null || email is not null)
         {
-            //error already exists
+            return Result.Failure(UserErrors.UserAlreadyExists);
         }
+        return Result.Success();
     }
 }

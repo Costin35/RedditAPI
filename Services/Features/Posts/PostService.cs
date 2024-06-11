@@ -1,5 +1,6 @@
 using RedditAPI.Data.Entities;
 using RedditAPI.Data.Infrastructure.UnitOfWork;
+using RedditAPI.Services.Constants;
 using RedditAPI.Services.Mappers;
 
 namespace RedditAPI.Services.Features.Posts;
@@ -11,21 +12,21 @@ public class PostService : IPostService
     {
         _unitOfWork = unitOfWork;
     }
-    public int CreatePost(PostDetailsDto postDetailsDto, int? userId)
+    public Result CreatePost(PostDetailsDto postDetailsDto, int? userId)
     {
         if (!userId.HasValue)
         {
-            //error not found
+            return Result.Failure(PostErrors.NotFound);
         }
 
         if (postDetailsDto is null)
         {
-            //error invalid data
+            return Result.Failure(PostErrors.InvalidData);
         }
         var user = _unitOfWork.Users.GetById(userId.Value);
         if (user is null)
         {
-            //error not found
+            return Result.Failure(PostErrors.NotFound);
         }
         var postToAdd = new Post
         {
@@ -34,28 +35,27 @@ public class PostService : IPostService
             CreatedAt = DateTime.UtcNow,
             UserId = user.Id
         };
-        /*user.Posts.Add(postToAdd);*/
         _unitOfWork.Posts.Add(postToAdd);
         _unitOfWork.SaveChanges();
 
-        return 200;   
+        return Result.Success();   
     }
 
-    public int ChangeDetails(int? postId, PostDetailsDto postDetailsDto)
+    public Result ChangeDetails(int? postId, PostDetailsDto postDetailsDto)
     {
         if(!postId.HasValue)
         {
-            //error not found
+            return Result.Failure(PostErrors.NotFound);
         }
 
         if (postDetailsDto is null)
         {
-            //error invalid data
+            return Result.Failure(PostErrors.InvalidData);
         }
         var post = _unitOfWork.Posts.GetById(postId.Value);
         if (post is null)
         {
-            //error not found
+            return Result.Failure(PostErrors.NotFound);
         }
         if (!string.IsNullOrWhiteSpace(postDetailsDto.Description))
         {
@@ -68,37 +68,37 @@ public class PostService : IPostService
         _unitOfWork.Posts.Update(post);
         _unitOfWork.SaveChanges();
         
-        return 200;
+        return Result.Success();
     }
 
-    public PostDto GetDetails(int? postId)
+    public Result<PostDto> GetDetails(int? postId)
     {
         if (!postId.HasValue)
         {
-            //error invalid data
+            return Result<PostDto>.Failure(PostErrors.InvalidData);
         }
         var post = _unitOfWork.Posts.GetById(postId.Value);
         if (post is null)
         {
-            //error not found
+            return Result<PostDto>.Failure(PostErrors.NotFound);
         }
-        return post.ToDto();
+        return Result<PostDto>.Success(post.ToDto());
     }
     
-    public int DeletePost(int? postId)
+    public Result DeletePost(int? postId)
     {
         if (!postId.HasValue)
         {
-            //error invalid data
+            return Result.Failure(PostErrors.InvalidData);
         }
         var post = _unitOfWork.Posts.GetById(postId.Value);
         if (post is null)
         {
-            //error not found
+            return Result.Failure(PostErrors.NotFound);
         }
         _unitOfWork.Posts.Delete(post);
         _unitOfWork.SaveChanges();
         
-        return 200;
+        return Result.Success();
     }
 }
